@@ -31,20 +31,20 @@ body{font-family:'Barlow',sans-serif;background:#0a1620;min-height:100vh;display
 .step{display:none;padding:32px;animation:fadeUp .35s ease both}
 .step.active{display:block}
 .step-title{font-family:'Barlow Condensed',sans-serif;font-size:24px;font-weight:700;color:var(--navy);letter-spacing:1px;margin-bottom:3px}
-.step-sub{font-size:10px;color:var(--grey);letter-spacing:2px;text-transform:uppercase;margin-bottom:24px}
+.step-sub{font-size:12px;color:var(--navy);font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:24px}
 
 /* ══ FORM ELEMENTS ══ */
 .fg{display:flex;flex-direction:column;gap:5px;margin-bottom:16px}
 .fg2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
 .fg3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px}
-label{font-size:10px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--navy);opacity:.65}
+label{font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--navy);opacity:.85}
 input[type=text],input[type=email],textarea{background:#fff;border:1.5px solid var(--border);border-radius:3px;padding:9px 12px;font-family:'Barlow',sans-serif;font-size:13px;color:var(--navy);outline:none;transition:border-color .2s,box-shadow .2s;width:100%}
 input:focus,textarea:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba(201,145,42,.1)}
 textarea{resize:vertical;min-height:66px}
-.badge-int{color:var(--gold);font-size:8px;letter-spacing:1px;font-weight:700;vertical-align:middle;margin-left:4px}
+.badge-int{color:var(--gold);font-size:10px;letter-spacing:1px;font-weight:700;vertical-align:middle;margin-left:4px}
 .notice{background:rgba(201,145,42,.08);border:1px solid rgba(201,145,42,.3);border-radius:4px;padding:9px 13px;margin-bottom:18px;font-size:11px;color:#7a5f20;display:flex;align-items:center;gap:8px}
 .divider{display:flex;align-items:center;gap:10px;margin:20px 0 15px}
-.divider span{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);white-space:nowrap}
+.divider span{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:13px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);white-space:nowrap}
 .divider::before,.divider::after{content:'';flex:1;height:1px;background:var(--border)}
 
 /* ══ COMP TAGS ══ */
@@ -62,7 +62,7 @@ textarea{resize:vertical;min-height:66px}
 .exp-list{display:flex;flex-direction:column;gap:12px;margin-bottom:12px}
 .exp-card{background:#fff;border:1.5px solid var(--border);border-radius:4px;padding:16px}
 .exp-hd{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
-.exp-hd span{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:10px;letter-spacing:2px;color:var(--gold);text-transform:uppercase}
+.exp-hd span{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:12px;letter-spacing:2px;color:var(--gold);text-transform:uppercase}
 .btn-rm{background:none;border:none;cursor:pointer;color:#b09070;font-size:18px;line-height:1;transition:color .2s}
 .btn-rm:hover{color:#c0392b}
 .btn-add{display:flex;align-items:center;justify-content:center;gap:7px;padding:9px;border:1.5px dashed var(--border);background:transparent;border-radius:3px;font-family:'Barlow',sans-serif;font-size:13px;color:var(--grey);cursor:pointer;transition:all .2s;width:100%}
@@ -81,7 +81,7 @@ textarea{resize:vertical;min-height:66px}
 /* ══ CARTE INTERACTIVE ══ */
 .map-section{margin-top:8px}
 .map-section label{display:block;margin-bottom:8px}
-.map-hint{font-size:11px;color:var(--grey);margin-bottom:10px}
+.map-hint{font-size:12px;color:var(--navy);font-weight:600;margin-bottom:10px}
 #france-map{width:100%;max-width:520px;cursor:pointer;display:block;margin:0 auto;background:transparent}
 #france-map path{fill:#e8e4dc;stroke:#c9922a;stroke-width:0.6;transition:fill .15s;cursor:pointer}
 #france-map path:hover{fill:#f5e29a;stroke:#c9922a}
@@ -114,39 +114,41 @@ textarea{resize:vertical;min-height:66px}
 .p-logo-wrap{display:flex;align-items:center;gap:14px}
 .p-logo-short{height:52px;width:auto;display:flex;align-items:center;flex-shrink:0}.p-logo-short svg{height:100%;width:auto}
 .p-logo-long{height:40px;width:auto;display:flex;align-items:center;flex-shrink:0}.p-logo-long svg{height:100%;width:auto}
-.p-title-block h1{font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:22px;color:#fff;letter-spacing:4px;text-transform:uppercase}
+.p-title-block h1{font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:26px;color:#fff;letter-spacing:4px;text-transform:uppercase}
 .p-title-block p{font-family:'Barlow Condensed',sans-serif;font-size:12px;color:var(--gold2);letter-spacing:3px;margin-top:3px}
 /* FOOTER LOGO */
-.p-slide-footer{position:absolute;bottom:16px;right:20px}
-.p-slide-footer-svg{height:32px;width:auto;display:block}.p-slide-footer-svg svg{height:100%;width:auto}
+.p-slide-footer{position:absolute;bottom:0;right:0;display:flex;align-items:flex-end}
+.p-slide-footer-svg{height:68px;width:auto;display:block}.p-slide-footer-svg svg{height:100%;width:auto}
 
 /* GRILLE 3 COLONNES */
-.p-body{display:grid;grid-template-columns:320px 1fr 340px;min-height:580px}
+.p-body{display:table;width:100%;table-layout:fixed;min-height:580px}
 
 /* COL HEADERS */
-.col-hd{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:10px;letter-spacing:3px;text-transform:uppercase;color:#fff;background:var(--navy);padding:7px 12px;display:flex;align-items:center;gap:6px}
+.col-hd{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:13px;letter-spacing:3px;text-transform:uppercase;color:#fff;background:var(--navy);padding:8px 12px;display:flex;align-items:center;gap:6px}
 .col-hd::before{content:'';display:inline-block;width:6px;height:6px;background:var(--gold);border-radius:50%;flex-shrink:0}
 
 /* COL GAUCHE */
-.p-left{border-right:1px solid var(--border);display:flex;flex-direction:column}
-.p-left-inner{padding:14px 15px;flex:1;display:flex;flex-direction:column}
+.p-left{border-right:1px solid var(--border);display:table-cell;vertical-align:top;width:320px;overflow:hidden;position:relative}
+.p-left-inner{padding:14px 15px 70px;display:flex;flex-direction:column}
 .p-profil-lbl{font-size:11px;font-weight:600;color:var(--gold);margin-bottom:4px;text-decoration:underline}
 .p-profil-txt{font-size:12px;color:var(--navy);line-height:1.55;flex:1}
 .p-desc-lbl{font-size:11px;font-weight:600;color:var(--gold);margin:12px 0 5px;text-decoration:underline}
 .p-desc-box{border:1px solid var(--border);background:#fff;border-radius:2px;padding:8px 10px;font-size:12px;color:var(--navy);line-height:1.5;flex:1}
 .p-quote{border-left:3px solid var(--gold);padding:7px 10px;margin:10px 0;font-size:12px;font-style:italic;color:var(--navy);line-height:1.5;background:rgba(201,145,42,.05)}
 .p-comps-section{margin-top:8px}
-.p-comps-hd{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:10px;letter-spacing:3px;text-transform:uppercase;color:#fff;background:var(--navy);padding:7px 12px;display:flex;align-items:center;gap:6px;margin:0 -15px}
+.p-comps-hd{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:13px;letter-spacing:3px;text-transform:uppercase;color:#fff;background:var(--navy);padding:8px 12px;display:flex;align-items:center;gap:6px;margin:0 -15px}
 .p-comps-hd::before{content:'';display:inline-block;width:6px;height:6px;background:var(--gold);border-radius:50%;flex-shrink:0}
 .p-comps-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px;padding:12px 0 0}
 .p-comp-tag{border:1.5px solid var(--gold);padding:5px 8px;font-size:10px;font-weight:600;color:var(--navy);text-align:center;letter-spacing:.5px}
-.p-apport{background:var(--navy);padding:12px;text-align:center;margin-top:auto}
-.p-apport-lbl{font-size:9px;letter-spacing:2px;color:var(--gold2);text-transform:uppercase}
-.p-apport-val{font-family:'Barlow Condensed',sans-serif;font-size:22px;font-weight:800;color:#fff;letter-spacing:1px;margin-top:2px}
+.p-apport{background:#0C1A2E;display:flex;position:absolute;bottom:0;left:0;right:0}
+.p-apport-slot{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;padding-bottom:12px;text-align:center;border-left:1px solid var(--gold)}
+.p-apport-slot:first-child{border-left:none}
+.p-apport-lbl{font-size:8px;letter-spacing:2px;color:var(--gold);text-transform:uppercase;font-weight:700;margin-bottom:auto;padding-top:12px}
+.p-apport-val{font-family:'Barlow Condensed',sans-serif;font-size:20px;font-weight:800;color:#fff;letter-spacing:1px;line-height:1}
 
 /* COL MILIEU */
-.p-mid{border-right:1px solid var(--border);display:flex;flex-direction:column}
-.p-mid-inner{padding:14px 16px;flex:1;display:flex;flex-direction:column}
+.p-mid{border-right:1px solid var(--border);display:table-cell;vertical-align:top}
+.p-mid-inner{margin:10px 10px 0;padding:14px 16px;display:flex;flex-direction:column;border-radius:4px;box-shadow:0 2px 12px rgba(0,0,0,0.15),0 1px 4px rgba(0,0,0,0.10)}
 .p-table{width:100%;border-collapse:collapse}
 .p-table tr{border-bottom:1px solid rgba(208,196,174,.5)}
 .p-table tr:last-child{border-bottom:none}
@@ -154,15 +156,16 @@ textarea{resize:vertical;min-height:66px}
 .p-table td:first-child{color:var(--grey);font-weight:500;font-size:11px;width:130px}
 .p-table td:last-child{color:var(--navy);font-weight:600;font-size:12px}
 .p-table tr.highlight td:last-child{color:var(--navy)}
-.p-map-section{margin-top:auto;padding:0 16px 14px}
-.p-map-hd{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:10px;letter-spacing:3px;text-transform:uppercase;color:#fff;background:var(--navy);padding:7px 12px;display:flex;align-items:center;gap:6px;margin:0 -16px 10px}
+.p-mid-flex{display:flex;flex-direction:column;height:100%}
+.p-map-section{flex:1;display:flex;flex-direction:column;padding:0 16px 10px;margin-top:16px}
+.p-map-hd{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:13px;letter-spacing:3px;text-transform:uppercase;color:#fff;background:var(--navy);padding:8px 12px;display:flex;align-items:center;gap:6px;margin:0 -16px 10px}
 .p-map-hd::before{content:'';display:inline-block;width:6px;height:6px;background:var(--gold);border-radius:50%;flex-shrink:0}
-.p-map-wrap{border:1px solid var(--border);background:#fff;border-radius:2px;padding:8px;overflow:visible}
+.p-map-wrap{flex:1;border:1px solid var(--border);background:#cdd6d0;border-radius:2px;padding:8px;overflow:hidden}
 
 /* COL DROITE */
-.p-right{display:flex;flex-direction:column}
-.p-right-inner{padding:14px 14px;flex:1}
-.p-exp{margin-bottom:10px;padding-bottom:10px;border-bottom:1px solid rgba(208,196,174,.45)}
+.p-right{display:table-cell;vertical-align:top;width:340px;overflow:hidden}
+.p-right-inner{padding:14px 14px}
+.p-exp{margin-bottom:8px;padding-bottom:8px;border-bottom:1px solid rgba(208,196,174,.45);overflow:hidden;max-height:138px}
 .p-exp:last-child{border-bottom:none;margin-bottom:0}
 .p-exp-period{display:inline-block;background:#eee;border:1px solid var(--border);padding:2px 8px;font-size:9px;font-weight:600;letter-spacing:1px;color:var(--navy);margin-bottom:5px}
 .p-exp-row{display:flex;justify-content:space-between;align-items:flex-start}
@@ -173,6 +176,33 @@ textarea{resize:vertical;min-height:66px}
 
 @keyframes fadeDown{from{opacity:0;transform:translateY(-12px)}to{opacity:1;transform:none}}
 @keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+
+/* ══ CHAR COUNTERS ══ */
+.char-cnt{font-size:8px;color:var(--grey);font-weight:400;letter-spacing:0;margin-left:5px;font-family:'Barlow',sans-serif;opacity:1}
+.cnt-over{color:#c0392b!important}
+
+/* ══ LOGO FIXES IN PDF ══
+   p-logo-short = left of dark banner → must be white text (fond_noir)
+   p-slide-footer-svg = watermark on cream bg → must be dark text (fond_blanc) */
+.p-logo-short g path{fill:white!important}
+.p-slide-footer-svg g path{fill:#1a2030!important}
+
+/* ══ PDF TEXT OVERFLOW ══ */
+.p-profil-txt{overflow:hidden}
+.p-desc-box{overflow:hidden}
+.p-quote{overflow:hidden}
+.p-exp-poste{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:180px}
+.p-exp-soc{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.p-exp-desc{overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;line-clamp:2;-webkit-box-orient:vertical}
+.p-comp-tag{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.p-table td:last-child{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:220px}
+
+/* ══ TYPE D'APPORT FORM TOGGLES ══ */
+#apport-types{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.atype-btn{cursor:pointer;position:relative}
+.atype-btn input{position:absolute;opacity:0;width:0;height:0}
+.atype-btn span{display:inline-block;padding:4px 11px;border:1px solid var(--border);border-radius:14px;background:#fff;font-size:11px;color:var(--grey);font-family:'Barlow',sans-serif;transition:all .15s;cursor:pointer;user-select:none}
+.atype-btn input:checked+span{border-color:var(--gold);background:var(--navy);color:#fff}
 </style>
 </head>
 <body>
@@ -258,24 +288,35 @@ textarea{resize:vertical;min-height:66px}
       </div>
     </div>
     <div class="fg">
-      <label>Profil du repreneur (court, 1–2 lignes)</label>
-      <input type="text" id="profil-court" placeholder="ex. Cadre dirigeant, 20 ans d'expérience industrie &amp; services">
+      <label>Profil du repreneur (court, 1–2 lignes)<span class="char-cnt" id="cnt-profil-court">0/120</span></label>
+      <input type="text" id="profil-court" maxlength="120" placeholder="ex. Cadre dirigeant, 20 ans d'expérience industrie &amp; services" oninput="updateCount(this,'cnt-profil-court')">
     </div>
     <div class="fg">
-      <label>Description du projet (2–3 lignes)</label>
-      <textarea id="profil" rows="3" placeholder="Dirigeant expérimenté souhaitant reprendre une PME rentable dans les services B2B..."></textarea>
+      <label>Description du projet (2–3 lignes)<span class="char-cnt" id="cnt-profil">0/220</span></label>
+      <textarea id="profil" rows="3" maxlength="220" placeholder="Dirigeant expérimenté souhaitant reprendre une PME rentable dans les services B2B..." oninput="updateCount(this,'cnt-profil')"></textarea>
     </div>
     <div class="fg">
-      <label>Motivation / philosophie de la transmission</label>
-      <textarea id="motivation" rows="2" placeholder="« Ma conviction est de créer de la valeur durable en accompagnant les dirigeants dans une transition sereine. »"></textarea>
+      <label>Motivation / philosophie de la transmission<span class="char-cnt" id="cnt-motivation">0/180</span></label>
+      <textarea id="motivation" rows="2" maxlength="180" placeholder="« Ma conviction est de créer de la valeur durable en accompagnant les dirigeants dans une transition sereine. »" oninput="updateCount(this,'cnt-motivation')"></textarea>
     </div>
     <div class="fg">
       <label>Apport personnel</label>
       <input type="text" id="apport" placeholder="ex. 500 k€">
     </div>
+    <div class="fg">
+      <label>Financement complémentaire <span style="color:var(--grey);font-size:9px;text-transform:none;letter-spacing:0;font-weight:400">— max 2 types</span> <span id="apport-max-notice" style="display:none;font-size:9px;color:#c0392b;font-weight:600;text-transform:none;letter-spacing:0">Maximum atteint (2/2)</span></label>
+      <div id="apport-types">
+        <label class="atype-btn"><input type="checkbox" value="Love money" onchange="toggleApportType(this)"><span>Love money</span></label>
+        <label class="atype-btn"><input type="checkbox" value="Business Angels" onchange="toggleApportType(this)"><span>Business Angels</span></label>
+        <label class="atype-btn"><input type="checkbox" value="Family Office" onchange="toggleApportType(this)"><span>Family Office</span></label>
+        <label class="atype-btn"><input type="checkbox" value="Fonds d'investissement" onchange="toggleApportType(this)"><span>Fonds d'investissement</span></label>
+        <label class="atype-btn"><input type="checkbox" value="Autre" onchange="toggleApportType(this)"><span>Autre</span></label>
+      </div>
+      <div id="apport-extra-amounts"></div>
+    </div>
     <div class="divider"><span>Compétences clés</span></div>
     <div class="fg">
-      <label>Compétences <span style="color:var(--grey);font-size:9px;text-transform:none;letter-spacing:0;font-weight:400">— tapez + Entrée, ou cliquez sur une suggestion</span></label>
+      <label>Compétences <span style="color:var(--grey);font-size:9px;text-transform:none;letter-spacing:0;font-weight:400">— max 5, tapez + Entrée ou cliquez sur une suggestion</span> <span id="comp-max-notice" style="display:none;font-size:9px;color:#c0392b;font-weight:600;text-transform:none;letter-spacing:0">Maximum atteint (5/5)</span></label>
       <div id="comp-tags"></div>
       <div style="position:relative">
         <input type="text" id="comp-input" placeholder="Saisir une compétence…">
@@ -329,10 +370,13 @@ textarea{resize:vertical;min-height:66px}
     </div>
 
     <div class="divider"><span>Zone géographique — Carte interactive</span></div>
-    <p class="map-hint" style="font-size:11px;color:var(--grey);margin-bottom:6px">Cliquez sur les départements pour les sélectionner — ils apparaîtront en orange sur la fiche PDF</p>
+    <p class="map-hint">Cliquez sur les départements pour les sélectionner — ils apparaîtront en orange sur la fiche PDF</p>
+    <div style="margin-bottom:8px">
+      <button type="button" id="btn-all-france" onclick="toggleAllFrance()" style="padding:4px 13px;background:var(--navy);color:#fff;border:1.5px solid var(--gold);border-radius:14px;font-size:11px;font-family:'Barlow',sans-serif;cursor:pointer;font-weight:600;transition:opacity .15s">Toute la France métropolitaine</button>
+    </div>
     <div id="dept-label" style="height:18px;font-size:11px;font-weight:600;color:var(--gold);letter-spacing:1px;margin-bottom:6px;text-align:center;font-family:'Barlow Condensed',sans-serif;text-transform:uppercase"></div>
     <div class="map-section">
-      <svg id="france-map" viewBox="0 0 667 578" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" style="width:100%;max-width:520px;display:block;margin:0 auto;background:transparent">
+      <svg id="france-map" viewBox="0 0 667 605" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" style="width:100%;height:auto;max-width:520px;display:block;margin:0 auto;background:transparent">
 <g class="region region-01" data-nom="Guadeloupe" data-code_insee="01">
 <path data-nom="Guadeloupe" data-numerodepartement="971" class="region-01 departement departement-971 departement-guadeloupe" d="M35.87,487.13l0.7,7.2l-4.5-1.1l-2,1.7l-5.8-0.6l-1.7-1.2l4.9,0.5l3.2-4.4L35.87,487.13z M104.87,553.63 l-4.4-1.8l-1.9,0.8l0.2,2.1l-1.9,0.3l-2.2,4.9l0.7,2.4l1.7,2.9l3.4,1.2l3.4-0.5l5.3-5l-0.4-2.5L104.87,553.63z M110.27,525.53 l-6.7-2.2l-2.4-4.2l-11.1-2.5l-2.7-5.7l-0.7-7.7l-6.2-4.7l-5.9,5.5l-0.8,2.9l1.2,4.5l3.1,1.2l-1,3.4l-2.6,1.2l-2.5,5.1l-1.9-0.2 l-1,1.9l-4.3-0.7l1.8-0.7l-3.5-3.7l-10.4-4.1l-3.4,1.6l-2.4,4.8l-0.5,3.5l3.1,9.7l0.6,12l6.3,9l0.6,2.7c3-1.2,6-2.5,9.1-3.7l5.9-6.9 l-0.4-8.7l-2.8-5.3l0.2-5.5l3.6,0.2l0.9-1.7l1.4,3.1l6.8,2l13.8-4.9L110.27,525.53z"></path>
 </g>
@@ -482,7 +526,7 @@ textarea{resize:vertical;min-height:66px}
   <!-- STEP 3 -->
   <div class="step" id="step-3">
     <div class="step-title">Parcours professionnel</div>
-    <div class="step-sub">Jusqu'à 5 expériences significatives</div>
+    <div class="step-sub">Jusqu'à 4 expériences significatives</div>
     <div class="exp-list" id="exp-list"></div>
     <button class="btn-add" onclick="addExp()" id="btn-add">
       <span style="font-size:17px;line-height:1">+</span> Ajouter une expérience
@@ -509,6 +553,18 @@ textarea{resize:vertical;min-height:66px}
 </div>
 
 <script>
+/* ══ CHAR COUNTER HELPERS ══ */
+function updateCount(inp,cntId){
+  const el=document.getElementById(cntId);if(!el)return;
+  el.textContent=inp.value.length+'/'+inp.maxLength;
+  el.classList.toggle('cnt-over',inp.value.length>=inp.maxLength);
+}
+function updateCountSib(inp,sibSel){
+  const el=inp.closest('.fg').querySelector(sibSel);if(!el)return;
+  el.textContent=inp.value.length+'/'+inp.maxLength;
+  el.classList.toggle('cnt-over',inp.value.length>=inp.maxLength);
+}
+
 /* ══ COMPÉTENCES ══ */
 const COMPS = ['Finance & Gestion','Direction Générale','Développement Commercial',"M&A / Build-up","Management d'équipes",'Stratégie & Opérations','Industrie & Production','Digital & Innovation','Export & International','Ressources Humaines','Marketing & Communication','Supply Chain','Lean / Excellence opérationnelle','Transformation / Restructuring','Business Development','Contrôle de gestion'];
 let selComps=[];
@@ -526,10 +582,12 @@ function initComps(){
   inp.addEventListener('keydown',e=>{if(e.key==='Enter'&&inp.value.trim()){e.preventDefault();addComp(inp.value.trim());sugg.style.display='none'}});
   document.addEventListener('click',e=>{if(!e.target.closest('#comp-input')&&!e.target.closest('#comp-sugg'))sugg.style.display='none'});
 }
-function addComp(c){if(!c||selComps.includes(c))return;selComps.push(c);renderComps();document.getElementById('comp-input').value=''}
+function addComp(c){if(!c||selComps.includes(c)||selComps.length>=5)return;selComps.push(c);renderComps();document.getElementById('comp-input').value=''}
 function removeComp(c){selComps=selComps.filter(x=>x!==c);renderComps()}
 function renderComps(){
-  document.getElementById('comp-tags').innerHTML=selComps.map(c=>`<span class="ctag">${c}<button type="button" onclick="removeComp('${c.replace(/'/g,"&#39;")}')">×</button></span>`).join('')
+  document.getElementById('comp-tags').innerHTML=selComps.map(c=>`<span class="ctag">${c}<button type="button" onclick="removeComp('${c.replace(/'/g,"&#39;")}')">×</button></span>`).join('');
+  const notice=document.getElementById('comp-max-notice');
+  if(notice)notice.style.display=selComps.length>=5?'inline':'none';
 }
 
 /* ══ CARTE FRANCE ══ */
@@ -538,10 +596,43 @@ const DEPT_NAMES={"01":"Ain","02":"Aisne","03":"Allier","04":"Alpes-de-Haute-Pro
 let selDepts=[];
 
 function initMap(){
+  let clickTimer=null;
   document.querySelectorAll('#france-map path[data-numerodepartement]').forEach(path=>{
     const code=path.getAttribute('data-numerodepartement');
     const nom=path.getAttribute('data-nom')||DEPT_NAMES[code]||code;
-    path.addEventListener('click',()=>toggleDept(code,path));
+    path.addEventListener('click',()=>{
+      clearTimeout(clickTimer);
+      clickTimer=setTimeout(()=>toggleDept(code,path),220);
+    });
+    path.addEventListener('dblclick',e=>{
+      e.preventDefault();
+      clearTimeout(clickTimer);
+      const regionG=path.closest('g[data-nom]');
+      if(!regionG)return;
+      const regionName=regionG.getAttribute('data-nom')||'';
+      const regionPaths=[...regionG.querySelectorAll('path[data-numerodepartement]')];
+      const regionCodes=regionPaths.map(p=>p.getAttribute('data-numerodepartement'));
+      const allSel=regionCodes.every(c=>selDepts.includes(c));
+      if(allSel){
+        regionCodes.forEach(c=>{
+          selDepts=selDepts.filter(d=>d!==c);
+          const el=regionG.querySelector('path[data-numerodepartement="'+c+'"]');
+          if(el)el.classList.remove('selected');
+        });
+      } else {
+        regionCodes.forEach(c=>{
+          if(!selDepts.includes(c))selDepts.push(c);
+          const el=regionG.querySelector('path[data-numerodepartement="'+c+'"]');
+          if(el)el.classList.add('selected');
+        });
+      }
+      renderDeptTags();
+      const lbl=document.getElementById('dept-label');
+      if(lbl){
+        lbl.textContent=(allSel?'Région désélectionnée : ':'Région sélectionnée : ')+regionName;
+        clearTimeout(lbl._t);lbl._t=setTimeout(()=>{lbl.textContent='';},2200);
+      }
+    });
     path.addEventListener('mouseover',()=>{
       document.getElementById('dept-label').textContent=code+' — '+nom;
     });
@@ -574,6 +665,27 @@ function removeDept(code){
   renderDeptTags();
 }
 
+function toggleAllFrance(){
+  const all=[...document.querySelectorAll('#france-map path[data-numerodepartement]')]
+    .filter(p=>DEPT_NAMES[p.getAttribute('data-numerodepartement')]);
+  const codes=all.map(p=>p.getAttribute('data-numerodepartement'));
+  const allSel=codes.every(c=>selDepts.includes(c));
+  if(allSel){
+    codes.forEach(c=>{
+      selDepts=selDepts.filter(d=>d!==c);
+      const el=document.querySelector(`#france-map path[data-numerodepartement="${c}"]`);
+      if(el)el.classList.remove('selected');
+    });
+  } else {
+    codes.forEach(c=>{
+      if(!selDepts.includes(c))selDepts.push(c);
+      const el=document.querySelector(`#france-map path[data-numerodepartement="${c}"]`);
+      if(el)el.classList.add('selected');
+    });
+  }
+  renderDeptTags();
+}
+
 /* ══ STEPS ══ */
 let curStep=1;
 function goStep(n){
@@ -591,17 +703,17 @@ function goStep(n){
 /* ══ EXPÉRIENCES ══ */
 let expCnt=0;
 function addExp(){
-  if(expCnt>=5)return;
+  if(expCnt>=4)return;
   expCnt++;
   const id='exp-'+Date.now();
   const d=document.createElement('div');
   d.className='exp-card';d.id=id;
   d.innerHTML=`<div class="exp-hd"><span>Expérience ${expCnt}</span><button class="btn-rm" type="button" onclick="removeExp('${id}')">×</button></div>
-  <div class="fg3"><div class="fg"><label>Période</label><input type="text" class="e-per" placeholder="2018 – 2024"></div><div class="fg"><label>Société</label><input type="text" class="e-soc" placeholder="Société ABC"></div><div class="fg"><label>CA</label><input type="text" class="e-ca" placeholder="CA 12 M€"></div></div>
-  <div class="fg2"><div class="fg"><label>Poste / Titre</label><input type="text" class="e-pos" placeholder="Directeur Général"></div><div class="fg"><label>Secteur</label><input type="text" class="e-sec" placeholder="Industrie / Services"></div></div>
-  <div class="fg"><label>Description mission</label><textarea class="e-desc" rows="2" placeholder="Pilotage stratégique, management de 60 personnes…"></textarea></div>`;
+  <div class="fg3"><div class="fg"><label>Période</label><input type="text" class="e-per" placeholder="2018 – 2024"></div><div class="fg"><label>Société<span class="char-cnt e-soc-cnt">0/30</span></label><input type="text" class="e-soc" maxlength="30" placeholder="Société ABC" oninput="updateCountSib(this,'.e-soc-cnt')"></div><div class="fg"><label>CA</label><input type="text" class="e-ca" placeholder="CA 12 M€"></div></div>
+  <div class="fg2"><div class="fg"><label>Poste / Titre<span class="char-cnt e-pos-cnt">0/40</span></label><input type="text" class="e-pos" maxlength="40" placeholder="Directeur Général" oninput="updateCountSib(this,'.e-pos-cnt')"></div><div class="fg"><label>Secteur</label><input type="text" class="e-sec" placeholder="Industrie / Services"></div></div>
+  <div class="fg"><label>Description mission<span class="char-cnt e-desc-cnt">0/80</span></label><textarea class="e-desc" rows="2" maxlength="80" placeholder="Pilotage stratégique, management de 60 personnes…" oninput="updateCountSib(this,'.e-desc-cnt')"></textarea></div>`;
   document.getElementById('exp-list').appendChild(d);
-  if(expCnt>=5)document.getElementById('btn-add').style.display='none';
+  if(expCnt>=4)document.getElementById('btn-add').style.display='none';
 }
 function removeExp(id){
   document.getElementById(id)&&document.getElementById(id).remove();
@@ -616,13 +728,35 @@ function getExps(){
   }));
 }
 
+/* ══ TYPE D'APPORT ══ */
+function toggleApportType(cb){
+  const container=document.getElementById('apport-extra-amounts');
+  const notice=document.getElementById('apport-max-notice');
+  if(cb.checked){
+    const checked=[...document.querySelectorAll('#apport-types input:checked')];
+    if(checked.length>2){cb.checked=false;return}
+    const row=document.createElement('div');
+    row.className='fg apport-extra-row';row.dataset.type=cb.value;
+    row.style.marginTop='6px';
+    row.innerHTML='<label style="font-size:10px;text-transform:none;letter-spacing:0;font-weight:600">'+cb.value+'</label><input type="text" placeholder="ex. 200 k€">';
+    container.appendChild(row);
+  }else{
+    const row=container.querySelector('[data-type="'+cb.value.replace(/"/g,'&quot;')+'"]');
+    if(row)row.remove();
+  }
+  const allChecked=[...document.querySelectorAll('#apport-types input:checked')];
+  if(notice)notice.style.display=allChecked.length>=2?'inline':'none';
+  const unchecked=[...document.querySelectorAll('#apport-types input:not(:checked)')];
+  unchecked.forEach(x=>{x.closest('.atype-btn').style.pointerEvents=allChecked.length>=2?'none':'';x.closest('.atype-btn').style.opacity=allChecked.length>=2?'.45':''});
+}
+
 /* ══ COLLECT ══ */
 function collect(){
   return{
     profil_court:document.getElementById('profil-court').value,
     profil:document.getElementById('profil').value,
     motivation:document.getElementById('motivation').value,
-    apport:document.getElementById('apport').value||'À préciser',
+    apport_slots:(()=>{const s=[{type:'Apport personnel',amount:document.getElementById('apport').value||'À préciser'}];document.querySelectorAll('.apport-extra-row').forEach(r=>s.push({type:r.dataset.type,amount:r.querySelector('input').value||'À préciser'}));return s;})(),
     comps:[...selComps],
     zone:document.getElementById('zone-affichee').value||'France — à préciser',
     secteur:document.getElementById('secteur').value||'Services / Production / Distribution',
@@ -638,7 +772,7 @@ function collect(){
 /* ══ RENDER PDF ══ */
 function renderPDF(d){
   // Exps HTML
-  const expsHTML=d.exps.length?d.exps.map(e=>`
+  const expsHTML=d.exps.length?d.exps.slice(0,4).map(e=>`
     <div class="p-exp">
       <div class="p-exp-period">${e.per||'20XX – 20XX'}</div>
       <div class="p-exp-row">
@@ -649,7 +783,11 @@ function renderPDF(d){
     </div>`).join(''):`<div style="font-size:12px;color:var(--grey)">—</div>`;
 
   // Comps HTML
-  const compsHTML=d.comps.length?d.comps.map(c=>`<div class="p-comp-tag">${c}</div>`).join(''):`<div style="font-size:11px;color:var(--grey)">—</div>`;
+  const compsHTML=d.comps.length?d.comps.slice(0,5).map(c=>`<div class="p-comp-tag">${c}</div>`).join(''):`<div style="font-size:11px;color:var(--grey)">—</div>`;
+
+  // Apport slots HTML
+  const slots=d.apport_slots&&d.apport_slots.length?d.apport_slots:[{type:'Apport personnel',amount:'À préciser'}];
+  const slotsHTML=slots.map(s=>`<div class="p-apport-slot"><div class="p-apport-lbl">${s.type}</div><div class="p-apport-val">${s.amount||'À préciser'}</div></div>`).join('');
 
   // Carte mini SVG avec départements sélectionnés
   const mapSVG=buildMapSVG(d.depts);
@@ -757,25 +895,24 @@ function renderPDF(d){
           <div class="p-comps-hd">COMPÉTENCES CLÉS</div>
           <div class="p-comps-grid">${compsHTML}</div>
         </div>
-        <div class="p-apport">
-          <div class="p-apport-lbl">Apport personnel</div>
-          <div class="p-apport-val">${d.apport}</div>
-        </div>
       </div>
+      <div class="p-apport">${slotsHTML}</div>
     </div>
 
     <!-- COL MILIEU -->
     <div class="p-mid">
-      <div class="col-hd">PROJET DE REPRISE</div>
-      <div class="p-mid-inner">
-        <table class="p-table">
-          <tr><td>Localisation</td><td>${d.zone}</td></tr>
-          <tr><td>Secteur(s)</td><td>${d.secteur}</td></tr>
-          <tr class="highlight"><td>CA cible</td><td>${d.ca}</td></tr>
-          <tr><td>Prix des titres</td><td>${d.prix}</td></tr>
-          <tr><td>Effectif</td><td>${d.eff}</td></tr>
-          <tr><td>Conditions</td><td>${d.cond}</td></tr>
-        </table>
+      <div class="p-mid-flex">
+        <div class="col-hd">PROJET DE REPRISE</div>
+        <div class="p-mid-inner">
+          <table class="p-table">
+            <tr><td>Localisation</td><td>${d.zone}</td></tr>
+            <tr><td>Secteur(s)</td><td>${d.secteur}</td></tr>
+            <tr class="highlight"><td>CA cible</td><td>${d.ca}</td></tr>
+            <tr><td>Prix des titres</td><td>${d.prix}</td></tr>
+            <tr><td>Effectif</td><td>${d.eff}</td></tr>
+            <tr><td>Conditions</td><td>${d.cond}</td></tr>
+          </table>
+        </div>
         <div class="p-map-section">
           <div class="p-map-hd">ZONE GÉOGRAPHIQUE</div>
           <div class="p-map-wrap">${mapSVG}</div>
@@ -839,7 +976,7 @@ function buildMapSVG(depts){
     const sw=sel?'0.8':'0.8';
     paths+=`<path d="${d}" fill="${fill}" stroke="${stroke}" stroke-width="${sw}"/>`;
   });
-  return `<svg viewBox="0 0 667 578" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;display:block;max-width:100%;background:transparent">${paths}</svg>`;
+  return `<svg viewBox="0 0 667 605" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%;display:block;background:transparent">${paths}</svg>`;
 }
 
 /* ══ VALIDATION ══ */
@@ -873,8 +1010,10 @@ async function dlPDF(){
     const prenom=spaceIdx>-1?nomComplet.slice(0,spaceIdx):nomComplet;
     const nom=spaceIdx>-1?nomComplet.slice(spaceIdx+1):'';
     alert('Votre fiche de cadrage vient d\'être téléchargée.\n\nVotre messagerie va maintenant s\'ouvrir afin que vous puissiez nous envoyer votre fiche.\n\nMerci d\'ajouter le fichier PDF téléchargé en pièce jointe avant d\'envoyer votre message.');
+    const apportLines=['Apport personnel : '+(document.getElementById('apport').value||'À préciser')];
+    document.querySelectorAll('.apport-extra-row').forEach(r=>apportLines.push(r.dataset.type+' : '+(r.querySelector('input').value||'À préciser')));
     const sujet=encodeURIComponent('Fiche de cadrage MBI Premium — '+prenom+' '+nom);
-    const corps=encodeURIComponent('Bonjour,\n\nVeuillez trouver ci-joint ma fiche de cadrage MBI Premium.\n\nMerci d\'ajouter le fichier PDF que vous venez de télécharger en pièce jointe avant d\'envoyer ce message.\n\nCordialement,\n'+prenom+' '+nom);
+    const corps=encodeURIComponent('Bonjour,\n\nVeuillez trouver ci-joint ma fiche de cadrage MBI Premium.\n\n'+apportLines.join('\n')+'\n\nMerci d\'ajouter le fichier PDF que vous venez de télécharger en pièce jointe avant d\'envoyer ce message.\n\nCordialement,\n'+prenom+' '+nom);
     window.location.href='mailto:service@acomcf.com?subject='+sujet+'&body='+corps;
   }catch(e){alert('Erreur génération PDF.');console.error(e)}
   btn.textContent='⬇ Télécharger le PDF';btn.disabled=false;
@@ -887,4 +1026,3 @@ addExp();addExp();
 </script>
 </body>
 </html>
-
