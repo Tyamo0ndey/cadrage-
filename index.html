@@ -392,12 +392,12 @@ textarea{resize:vertical;min-height:100px;padding-bottom:24px}
       <input type="text" id="profil-court" maxlength="180" placeholder="ex. Cadre dirigeant, 20 ans d'expérience industrie &amp; services" oninput="updateCount(this,'cnt-profil-court')">
     </div>
     <div class="fg">
-      <label>Description du projet (2–3 lignes)<span class="char-cnt" id="cnt-profil">0/320</span></label>
-      <textarea id="profil" rows="3" maxlength="320" style="min-height:120px" placeholder="Dirigeant expérimenté souhaitant reprendre une PME rentable dans les services B2B..." oninput="updateCount(this,'cnt-profil')"></textarea>
+      <label>Description du projet (2–3 lignes)<span class="char-cnt" id="cnt-profil">0/285</span></label>
+      <textarea id="profil" rows="3" maxlength="285" style="min-height:120px" placeholder="Dirigeant expérimenté souhaitant reprendre une PME rentable dans les services B2B..." oninput="updateCount(this,'cnt-profil')"></textarea>
     </div>
     <div class="fg">
-      <label>Motivation / philosophie de la transmission<span class="char-cnt" id="cnt-motivation">0/200</span></label>
-      <textarea id="motivation" rows="2" maxlength="200" style="min-height:100px" placeholder="« Ma conviction est de créer de la valeur durable en accompagnant les dirigeants dans une transition sereine. »" oninput="updateCount(this,'cnt-motivation')"></textarea>
+      <label>Motivation / philosophie de la transmission<span class="char-cnt" id="cnt-motivation">0/165</span></label>
+      <textarea id="motivation" rows="2" maxlength="165" style="min-height:100px" placeholder="« Ma conviction est de créer de la valeur durable en accompagnant les dirigeants dans une transition sereine. »" oninput="updateCount(this,'cnt-motivation')"></textarea>
     </div>
     <div class="fg">
       <label>Apport personnel <span class="keur-hint">MONTANT EN K EUROS</span></label>
@@ -475,8 +475,8 @@ textarea{resize:vertical;min-height:100px;padding-bottom:24px}
         <input type="text" id="effectif" placeholder="ex. 20 à 80 personnes">
       </div>
       <div class="fg">
-        <label>Conditions</label>
-        <input type="text" id="conditions" placeholder="ex. Acquisition majoritaire ou 100%">
+        <label>Conditions<span class="char-cnt" id="cnt-conditions">0/110</span></label>
+        <input type="text" id="conditions" maxlength="110" placeholder="ex. Acquisition majoritaire ou 100%" oninput="updateCount(this,'cnt-conditions')">
       </div>
     </div>
 
@@ -674,7 +674,7 @@ textarea{resize:vertical;min-height:100px;padding-bottom:24px}
 <!-- ══ PDF PREVIEW ══ -->
 <div id="sec-preview" style="display:none">
   <div class="preview-hd">
-    <h3>Aperçu — Fiche anonyme telle qu’envoyée aux vendeurs</h3>
+    <h3>Aperçu — Fiche anonyme telle qu’envoyée à toute notre base de données</h3>
     <span class="preview-badge">ANONYMISÉE</span>
   </div>
   <div class="preview-notice">Vérifiez qu’aucune information identifiante n’apparaít avant de télécharger.</div>
@@ -1614,7 +1614,7 @@ function devPrefill(){
 </script>
 
 <!-- DEV ONLY - remove before production -->
-<button onclick="devPrefill()" style="position:fixed;bottom:20px;left:20px;z-index:9999;font-size:11px;padding:8px 14px;background:#121a26;border:1px solid #d78a10;color:#d78a10;cursor:pointer;font-family:'Barlow',sans-serif;font-weight:600;letter-spacing:.5px;border-radius:3px">⚡ Pré-remplir (test)</button>
+<button onclick="devPrefill()" style="display:none;pointer-events:none;position:fixed;bottom:20px;left:20px;z-index:9999;font-size:11px;padding:8px 14px;background:#121a26;border:1px solid #d78a10;color:#d78a10;cursor:pointer;font-family:'Barlow',sans-serif;font-weight:600;letter-spacing:.5px;border-radius:3px">⚡ Pré-remplir (test)</button>
 
 </body>
 </html>
