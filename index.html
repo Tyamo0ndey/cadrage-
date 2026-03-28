@@ -147,11 +147,11 @@ textarea{resize:vertical;min-height:100px;padding-bottom:24px}
 }
 
 /* BANDEAU HAUT */
-.p-header{background:#121a26;padding:12px 22px;display:flex;align-items:center;justify-content:space-between;border-bottom:3px solid #d78a10}
+.p-header{background:#121a26;padding:8px 16px;min-height:80px;display:flex;align-items:center;justify-content:space-between;border-bottom:3px solid #d78a10}
 .p-logo-wrap{display:flex;align-items:center;gap:14px}
-.p-logo-short{height:48px;width:auto;display:flex;align-items:center;flex-shrink:0}
+.p-logo-short{height:96px;width:auto;display:flex;align-items:center;flex-shrink:0}
 .p-logo-short svg{height:100%;width:auto}
-.p-logo-long{height:36px;width:auto;display:flex;align-items:center;flex-shrink:0}
+.p-logo-long{height:72px;width:auto;display:flex;align-items:center;flex-shrink:0}
 .p-logo-long svg{height:100%;width:auto}
 .p-title-block h1{font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:18px;color:#fff;letter-spacing:3px;text-transform:uppercase;line-height:1.1}
 .p-title-block p{font-family:'Barlow Condensed',sans-serif;font-size:11px;color:#d78a10;letter-spacing:3px;margin-top:3px}
@@ -1530,23 +1530,38 @@ async function dlPDF(){
   const el=document.getElementById('pdf-out');
   const btn=document.querySelector('.btn-pdf');
   btn.textContent='⏳ Génération…';btn.disabled=true;
-  // Ensure exact A4 landscape dimensions for capture
-  const prevW=el.style.width, prevH=el.style.height;
-  el.style.width='1122px';el.style.height='794px';
+  // Save current styles (may be mobile-scaled)
+  const prevTransform=el.style.transform;
+  const prevZoom=el.style.zoom;
+  const prevW=el.style.width;
+  const prevMinW=el.style.minWidth;
+  const prevH=el.style.height;
+  // Force exact desktop dimensions for capture regardless of screen size
+  el.style.transform='none';
+  el.style.zoom='1';
+  el.style.width='1122px';
+  el.style.minWidth='1122px';
+  el.style.height='794px';
+  // Wait for reflow
+  await new Promise(r=>setTimeout(r,100));
   try{
     const canvas=await html2canvas(el,{
       scale:2,
       useCORS:true,
       allowTaint:true,
       backgroundColor:'#f4f4f4',
-      width:el.offsetWidth,
-      height:el.offsetHeight,
-      windowWidth:el.offsetWidth,
+      width:1122,
+      height:794,
+      windowWidth:1122,
       scrollX:0,
       scrollY:0
     });
-    // Restore dimensions
-    el.style.width=prevW;el.style.height=prevH;
+    // Restore styles
+    el.style.transform=prevTransform;
+    el.style.zoom=prevZoom;
+    el.style.width=prevW;
+    el.style.minWidth=prevMinW;
+    el.style.height=prevH;
     const{jsPDF}=window.jspdf;
     const pdf=new jsPDF({orientation:'landscape',unit:'mm',format:'a4'});
     const pageW=pdf.internal.pageSize.getWidth();
@@ -1567,7 +1582,11 @@ async function dlPDF(){
     const corps=encodeURIComponent('Bonjour,\n\nVeuillez trouver ci-joint ma fiche de cadrage MBI Premium.\n\n'+apportLines.join('\n')+'\n\nMerci d\'ajouter le fichier PDF que vous venez de télécharger en pièce jointe avant d\'envoyer ce message.\n\nCordialement,\n'+prenom+' '+nom);
     window.location.href='mailto:service@acomcf.com?subject='+sujet+'&body='+corps;
   }catch(e){
-    el.style.width=prevW;el.style.height=prevH;el.style.minHeight=prevMinH;
+    el.style.transform=prevTransform;
+    el.style.zoom=prevZoom;
+    el.style.width=prevW;
+    el.style.minWidth=prevMinW;
+    el.style.height=prevH;
     alert('Erreur génération PDF.');console.error(e)
   }
   btn.textContent='↓ Télécharger le PDF';btn.disabled=false;
