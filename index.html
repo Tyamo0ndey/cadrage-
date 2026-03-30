@@ -473,8 +473,8 @@ textarea{resize:vertical;min-height:100px;padding-bottom:24px}
       <textarea id="profil" rows="3" maxlength="285" style="min-height:120px" placeholder="Dirigeant expérimenté souhaitant reprendre une PME rentable dans les services B2B..." oninput="updateCount(this,'cnt-profil')"></textarea>
     </div>
     <div class="fg">
-      <label>Motivation / philosophie de la transmission<span class="char-cnt" id="cnt-motivation">0/165</span></label>
-      <textarea id="motivation" rows="2" maxlength="165" style="min-height:100px" placeholder="« Ma conviction est de créer de la valeur durable en accompagnant les dirigeants dans une transition sereine. »" oninput="updateCount(this,'cnt-motivation')"></textarea>
+      <label>Motivation / philosophie de la transmission<span class="char-cnt" id="cnt-motivation">0/120</span></label>
+      <textarea id="motivation" rows="2" maxlength="120" style="min-height:100px" placeholder="« Ma conviction est de créer de la valeur durable en accompagnant les dirigeants dans une transition sereine. »" oninput="updateCount(this,'cnt-motivation')"></textarea>
     </div>
     <div class="fg">
       <label>Apport personnel <span class="keur-hint">MONTANT EN K EUROS</span></label>
@@ -739,10 +739,6 @@ textarea{resize:vertical;min-height:100px;padding-bottom:24px}
       <button class="s-btn-visualiser" onclick="showVal()">
         <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
         Visualiser ma fiche
-      </button>
-      <button class="s-btn-envoyer" onclick="dlPDF()">
-        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-        Générer &amp; Envoyer
       </button>
     </div>
   </div>
@@ -1527,6 +1523,7 @@ function backToForm(){
 
 async function dlPDF(){
   flushKeurFields();
+  renderPDF(collect());
   const el=document.getElementById('pdf-out');
   const btn=document.querySelector('.btn-pdf');
   btn.textContent='⏳ Génération…';btn.disabled=true;
@@ -1543,7 +1540,8 @@ async function dlPDF(){
   el.style.minWidth='1122px';
   el.style.height='794px';
   // Wait for reflow
-  await new Promise(r=>setTimeout(r,100));
+  await new Promise(r=>requestAnimationFrame(r));
+  await new Promise(r=>requestAnimationFrame(r));
   try{
     const canvas=await html2canvas(el,{
       scale:2,
