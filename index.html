@@ -1569,6 +1569,15 @@ async function dlPDF(){
     const pdfH=pageW/ratio;
     pdf.addImage(canvas.toDataURL('image/jpeg',1.0),'JPEG',0,0,pdfW,Math.min(pdfH,pageH));
     pdf.save('Fiche_MBI_'+Date.now().toString().slice(-6)+'.pdf');
+    // ── Envoi Supabase + création compte ──
+    const sbResult = await sendToSupabase();
+    if (sbResult.success && sbResult.is_new_account && sbResult.temp_password) {
+      alert('✅ Votre compte MBI Premium a été créé !\n\nVos identifiants de connexion :\n📧 Email : ' + document.getElementById('email').value + '\n🔑 Mot de passe temporaire : ' + sbResult.temp_password + '\n\nConnectez-vous sur votre espace MBI Premium pour suivre votre dossier.\n\nPensez à changer votre mot de passe après la première connexion.');
+    } else if (sbResult.success) {
+      console.log('[MBI] Fiche mise à jour (compte existant)');
+    } else {
+      console.warn('[MBI] Envoi Supabase échoué:', sbResult.error);
+    }
     const nomComplet=(document.getElementById('nom').value||'').trim();
     const spaceIdx=nomComplet.indexOf(' ');
     const prenom=spaceIdx>-1?nomComplet.slice(0,spaceIdx):nomComplet;
@@ -1704,6 +1713,112 @@ function devPrefill(){
   // ── Show PDF preview ─────────────────────────────────────
   showVal();
   document.getElementById('sec-preview').scrollIntoView({behavior:'smooth',block:'start'});
+}
+
+/* ══════════════════════════════════════════════════════
+   SUPABASE — Envoi de la fiche de cadrage
+══════════════════════════════════════════════════════ */
+
+const SUPABASE_URL = 'https://xoxssqbhsdtxzzmrdkfp.supabase.co';
+const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhveHNzcWJoc2R0eHp6bXJka2ZwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQ5MDE0MTIsImV4cCI6MjA5MDQ3NzQxMn0.-vF_HuCmP1umpkbFrlL2N2UgTKK1y9n3n2RVdEEnyNU';
+const EDGE_FUNCTION_URL = SUPABASE_URL + '/functions/v1/submit-fiche';
+
+function parseKeur(str) {
+  if (!str) return null;
+  const n = parseInt(str.replace(/[^0-9]/g, ''), 10);
+  return isNaN(n) ? null : n;
+}
+
+function deptsToRegions(depts) {
+  const REGION_MAP = {
+    'Île-de-France': ['75','77','78','91','92','93','94','95'],
+    'Bretagne': ['22','29','35','56'],
+    'Normandie': ['14','27','50','61','76'],
+    'Hauts-de-France': ['02','59','60','62','80'],
+    'Grand Est': ['08','10','51','52','54','55','57','67','68','88'],
+    'Pays de la Loire': ['44','49','53','72','85'],
+    'Centre-Val de Loire': ['18','28','36','37','41','45'],
+    'Bourgogne-Franche-Comté': ['21','25','39','58','70','71','89','90'],
+    'Auvergne-Rhône-Alpes': ['01','03','07','15','26','38','42','43','63','69','73','74'],
+    'Nouvelle-Aquitaine': ['16','17','19','23','24','33','40','47','64','79','86','87'],
+    'Occitanie': ['09','11','12','30','31','32','34','46','48','65','66','81','82'],
+    'Provence-Alpes-Côte d\'Azur': ['04','05','06','13','83','84'],
+    'Corse': ['2A','2B']
+  };
+  const regions = new Set();
+  for (const [region, codes] of Object.entries(REGION_MAP)) {
+    if (codes.some(c => depts.includes(c))) regions.add(region);
+  }
+  return [...regions];
+}
+
+function buildSupabasePayload() {
+  const d = collect();
+  const prixVal = parseKeur(d.prix);
+
+  const experiences = d.exps
+    .filter(e => e.pos || e.soc || e.desc || e.per)
+    .map(e => ({
+      periode: (e.per || '').replace(/\.+\s*$/, '').trim(),
+      societe: (e.soc || '').replace(/\.+\s*$/, '').trim(),
+      ca: (e.ca || '').replace(/\.+\s*$/, '').trim(),
+      poste: (e.pos || '').replace(/\.+\s*$/, '').trim(),
+      description: (e.desc || '').replace(/\.+\s*$/, '').trim()
+    }));
+
+  const financement = d.apport_slots
+    .filter(s => s.type !== 'Apport personnel')
+    .map(s => ({ type: s.type, amount: s.amount || 'À préciser' }));
+
+  return {
+    full_name: (document.getElementById('nom').value || '').trim(),
+    email: (document.getElementById('email').value || '').trim().toLowerCase(),
+    profil_court: (d.profil_court || '').replace(/\.+\s*$/, '').trim() || null,
+    profil_description: (d.profil || '').replace(/\.+\s*$/, '').trim() || null,
+    motivation: (d.motivation || '').replace(/\.+\s*$/, '').trim() || null,
+    competences: d.comps.length ? d.comps : null,
+    localisation: (document.getElementById('localisation').value || '').trim() || null,
+    zone_affichee: (d.zone || '').trim() || null,
+    secteur_recherche: d.secteur || null,
+    ca_cible: (d.ca || '').trim() || null,
+    apport: parseKeur(document.getElementById('apport').value),
+    prix_min: prixVal,
+    prix_max: prixVal,
+    effectif: (d.eff || '').trim() || null,
+    conditions: (d.cond || '').replace(/\.+\s*$/, '').trim() || null,
+    regions_cibles: deptsToRegions(d.depts),
+    departements_cibles: d.depts.length ? d.depts : null,
+    financement_complementaire: financement.length ? financement : null,
+    experiences: experiences.length ? experiences : null,
+  };
+}
+
+async function sendToSupabase() {
+  const payload = buildSupabasePayload();
+  if (!payload.email) {
+    console.warn('[Supabase] Email manquant');
+    return { success: false, error: 'Email manquant' };
+  }
+  try {
+    const res = await fetch(EDGE_FUNCTION_URL, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + SUPABASE_ANON_KEY,
+      },
+      body: JSON.stringify(payload),
+    });
+    const data = await res.json();
+    if (!res.ok) {
+      console.error('[Supabase] Erreur:', data);
+      return { success: false, error: data.error };
+    }
+    console.log('[Supabase] OK', data);
+    return data;
+  } catch (err) {
+    console.error('[Supabase] Réseau:', err);
+    return { success: false, error: err.message };
+  }
 }
 </script>
 
