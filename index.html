@@ -455,11 +455,6 @@ textarea{resize:vertical;min-height:100px;padding-bottom:24px}
       <span class="s-gold-dot"></span>
       <h2 style="color:#fff">Importer une fiche existante <span style="font-size:13px;font-weight:400;color:rgba(255,255,255,.45);letter-spacing:1px;text-transform:none">(optionnel)</span></h2>
     </div>
-    <div style="margin-bottom:16px">
-      <label style="display:block;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.5);margin-bottom:6px">Clé API Anthropic</label>
-      <input type="password" id="import-api-key" placeholder="sk-ant-..." style="width:100%;max-width:420px;padding:10px 14px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.15);border-radius:4px;color:#fff;font-family:'Barlow',sans-serif;font-size:13px;outline:none;box-sizing:border-box" oninput="localStorage.setItem('mbi_api_key',this.value)">
-      <div style="font-size:11px;color:rgba(255,255,255,.3);margin-top:5px">Votre clé est stockée localement dans le navigateur et n'est jamais transmise à nos serveurs.</div>
-    </div>
     <div id="drop-zone" style="border:2px dashed rgba(215,138,16,.5);border-radius:6px;padding:48px 32px;text-align:center;cursor:pointer;transition:all .25s;background:rgba(255,255,255,.03)">
       <div style="font-size:36px;margin-bottom:12px">📄</div>
       <div style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:18px;color:#fff;letter-spacing:2px;text-transform:uppercase;margin-bottom:8px">Glissez votre fiche de cadrage ici</div>
@@ -1664,175 +1659,97 @@ document.getElementById('zone-affichee').addEventListener('input',syncZoneToMap)
 
 
 /* ══ PDF IMPORT ══ */
-(function initPDFImport(){
-  const zone = document.getElementById('drop-zone');
+(function initPDFImport() {
+  const dropZone = document.getElementById('drop-zone');
   const fileInput = document.getElementById('pdf-import-input');
   const status = document.getElementById('import-status');
   const preview = document.getElementById('import-preview');
-  const apiKeyInput = document.getElementById('import-api-key');
-  if(!zone) return;
 
-  // Restore saved API key
-  const savedKey = localStorage.getItem('mbi_api_key');
-  if(savedKey && apiKeyInput) apiKeyInput.value = savedKey;
-
-  zone.addEventListener('dragover', e => { e.preventDefault(); zone.classList.add('dragover'); });
-  zone.addEventListener('dragleave', () => zone.classList.remove('dragover'));
-  zone.addEventListener('drop', e => {
-    e.preventDefault(); zone.classList.remove('dragover');
-    const f = e.dataTransfer.files[0]; if(f) handleFile(f);
+  dropZone.addEventListener('dragover', e => { e.preventDefault(); dropZone.classList.add('dragover'); });
+  dropZone.addEventListener('dragleave', () => dropZone.classList.remove('dragover'));
+  dropZone.addEventListener('drop', e => {
+    e.preventDefault();
+    dropZone.classList.remove('dragover');
+    const file = e.dataTransfer.files[0];
+    if (file && file.type === 'application/pdf') processPDF(file);
+    else showStatus('error', 'Fichier non reconnu — veuillez déposer un PDF.');
   });
-  fileInput.addEventListener('change', () => { if(fileInput.files[0]) handleFile(fileInput.files[0]); });
+  fileInput.addEventListener('change', () => { if (fileInput.files[0]) processPDF(fileInput.files[0]); });
 
-  function showStatus(msg, type){
+  function showStatus(type, msg) {
     status.style.display = 'block';
-    status.style.background = type==='error'?'rgba(192,57,43,.15)':type==='success'?'rgba(39,174,96,.12)':'rgba(215,138,16,.1)';
-    status.style.color = type==='error'?'#e74c3c':type==='success'?'#27ae60':'#d78a10';
-    status.style.border = '1px solid '+(type==='error'?'rgba(231,76,60,.3)':type==='success'?'rgba(39,174,96,.25)':'rgba(215,138,16,.3)');
+    status.style.background = type === 'error' ? 'rgba(192,57,43,.15)' : type === 'success' ? 'rgba(39,174,96,.15)' : 'rgba(215,138,16,.12)';
+    status.style.border = type === 'error' ? '1px solid rgba(192,57,43,.4)' : type === 'success' ? '1px solid rgba(39,174,96,.3)' : '1px solid rgba(215,138,16,.3)';
+    status.style.color = type === 'error' ? '#e74c3c' : type === 'success' ? '#27ae60' : '#d78a10';
     status.textContent = msg;
   }
 
-  function handleFile(file){
-    if(!file.type.includes('pdf') && !file.name.endsWith('.pdf')){
-      showStatus('Veuillez sélectionner un fichier PDF.', 'error'); return;
-    }
-    const apiKey = apiKeyInput ? apiKeyInput.value.trim() : '';
-    if(!apiKey){
-      showStatus('Veuillez entrer votre clé API Anthropic pour utiliser cette fonctionnalité.', 'error'); return;
-    }
-    zone.classList.add('loading');
-    showStatus('Analyse du PDF en cours…', 'info');
+  async function processPDF(file) {
+    dropZone.classList.add('loading');
+    showStatus('loading', '⏳ Lecture du PDF en cours…');
     preview.style.display = 'none';
-
-    const reader = new FileReader();
-    reader.onload = async function(ev){
-      const b64 = ev.target.result.split(',')[1];
-      try {
-        const resp = await fetch('https://api.anthropic.com/v1/messages', {
-          method: 'POST',
-          headers: {
-            'content-type': 'application/json',
-            'x-api-key': apiKey,
-            'anthropic-version': '2023-06-01',
-            'anthropic-dangerous-direct-browser-access': 'true'
-          },
-          body: JSON.stringify({
-            model: 'claude-sonnet-4-20250514',
-            max_tokens: 2048,
-            messages: [{
-              role: 'user',
-              content: [
-                { type: 'document', source: { type: 'base64', media_type: 'application/pdf', data: b64 } },
-                { type: 'text', text: `Extrait les informations de cette fiche de cadrage MBI et retourne UNIQUEMENT un objet JSON valide avec ces clés (laisse vide "" si non trouvé) :
-{
-  "nom": "",
-  "email": "",
-  "profil_court": "",
-  "profil": "",
-  "motivation": "",
-  "apport": "",
-  "comps": [],
-  "secteurs": [],
-  "ca": "",
-  "prix": "",
-  "eff": "",
-  "cond": "",
-  "localisation": "",
-  "depts": [],
-  "exps": [{"per":"","soc":"","ca":"","pos":"","sec":"","desc":""}]
-}
-Retourne uniquement le JSON brut, sans texte avant ou après, sans balises markdown.` }
-              ]
-            }]
-          })
-        });
-        if(!resp.ok){
-          const err = await resp.json().catch(()=>({error:{message:resp.statusText}}));
-          throw new Error(err.error?.message || 'Erreur API ('+resp.status+')');
-        }
-        const data = await resp.json();
-        const raw = data.content[0].text.trim();
-        let extracted;
-        try {
-          const jsonMatch = raw.match(/\{[\s\S]*\}/);
-          extracted = JSON.parse(jsonMatch ? jsonMatch[0] : raw);
-        } catch(e) { throw new Error('Réponse inattendue de l\'API — impossible de parser le JSON'); }
-
-        applyExtractedData(extracted);
-
-        // Build summary preview
-        const lines = [];
-        if(extracted.nom) lines.push('<b>Nom :</b> '+extracted.nom);
-        if(extracted.profil_court) lines.push('<b>Profil :</b> '+extracted.profil_court);
-        if(extracted.apport) lines.push('<b>Apport :</b> '+extracted.apport);
-        if(extracted.ca) lines.push('<b>CA cible :</b> '+extracted.ca);
-        if(extracted.comps && extracted.comps.length) lines.push('<b>Compétences :</b> '+extracted.comps.join(', '));
-        if(extracted.exps && extracted.exps.length) lines.push('<b>Expériences :</b> '+extracted.exps.map(e=>e.soc||e.pos).filter(Boolean).join(', '));
-        if(lines.length){ preview.innerHTML = lines.join('<br>'); preview.style.display = 'block'; }
-
-        showStatus('Fiche importée avec succès — vérifiez et complétez les champs ci-dessous.', 'success');
-      } catch(err) {
-        showStatus('Erreur : '+err.message, 'error');
-      } finally {
-        zone.classList.remove('loading');
-      }
-    };
-    reader.onerror = () => { zone.classList.remove('loading'); showStatus('Impossible de lire le fichier.', 'error'); };
-    reader.readAsDataURL(file);
+    try {
+      const base64 = await new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = () => resolve(reader.result.split(',')[1]);
+        reader.onerror = () => reject(new Error('Lecture fichier échouée'));
+        reader.readAsDataURL(file);
+      });
+      showStatus('loading', '🤖 Analyse par IA en cours…');
+      const response = await fetch('https://api.anthropic.com/v1/messages', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          model: 'claude-sonnet-4-20250514',
+          max_tokens: 1000,
+          messages: [{
+            role: 'user',
+            content: [
+              { type: 'document', source: { type: 'base64', media_type: 'application/pdf', data: base64 } },
+              { type: 'text', text: `Tu es un extracteur de données structurées. Analyse cette fiche de cadrage et extrait toutes les informations. Réponds UNIQUEMENT avec un objet JSON valide, sans texte avant ni après, sans balises markdown. Si une information est absente, mets null.\n\nFormat exact:\n{\n  "profil_court": "résumé 1-2 lignes max",\n  "profil": "description projet 2-3 phrases",\n  "motivation": "phrase motivation max 120 caractères",\n  "apport": "montant en k€ chiffre pur ou null",\n  "apport_complementaire": [{"type": "Love money|Business Angels|Family Office|Fonds d'investissement|Autre", "amount": "k€ chiffre pur ou null"}],\n  "zone_affichee": "description zone géographique",\n  "secteurs": ["secteur 1"],\n  "ca_cible": "montant en k€ chiffre pur",\n  "prix_titres": "valorisation texte libre ex: > 5 M€",\n  "effectif": "ex: 20 à 80 personnes",\n  "conditions": "ex: Acquisition majoritaire",\n  "competences": ["compétence 1"],\n  "experiences": [{"periode": "2018–2024", "societe": "nom", "ca": "k€ pur", "poste": "titre", "description": "1-2 lignes"}],\n  "departements": ["44", "75"]\n}` }
+            ]
+          }]
+        })
+      });
+      if (!response.ok) { const err = await response.json().catch(() => ({})); throw new Error(err?.error?.message || `Erreur API ${response.status}`); }
+      const data = await response.json();
+      const rawText = data.content.filter(b => b.type === 'text').map(b => b.text).join('');
+      let extracted;
+      try { extracted = JSON.parse(rawText.replace(/```json|```/g, '').trim()); }
+      catch { throw new Error('Réponse IA non parseable — réessayez ou remplissez manuellement.'); }
+      applyExtractedData(extracted);
+      showStatus('success', '✅ Fiche importée avec succès — vérifiez et complétez les champs.');
+      const lines = [];
+      if (extracted.profil_court) lines.push(`👤 Profil : ${extracted.profil_court.slice(0,80)}…`);
+      if (extracted.experiences?.length) lines.push(`💼 ${extracted.experiences.length} expérience(s) importée(s)`);
+      if (extracted.secteurs?.length) lines.push(`🏭 Secteurs : ${extracted.secteurs.join(', ')}`);
+      if (extracted.ca_cible) lines.push(`📊 CA cible : ${extracted.ca_cible} k€`);
+      if (extracted.departements?.length) lines.push(`📍 ${extracted.departements.length} département(s) sélectionné(s)`);
+      if (lines.length) { preview.style.display = 'block'; preview.innerHTML = lines.map(l => `<div>${l}</div>`).join(''); }
+      setTimeout(() => scrollToSection('sec-step1'), 800);
+    } catch(err) {
+      console.error('PDF import error:', err);
+      showStatus('error', '❌ ' + (err.message || 'Erreur inconnue'));
+    } finally { dropZone.classList.remove('loading'); }
   }
 
-  function applyExtractedData(d){
-    function set(id, val){ const el = document.getElementById(id); if(el && val) el.value = val; }
-    function trigger(id){ const el = document.getElementById(id); if(el){ el.dispatchEvent(new Event('input',{bubbles:true})); el.dispatchEvent(new Event('change',{bubbles:true})); } }
-
-    if(d.nom){ set('nom', d.nom); }
-    if(d.email){ set('email', d.email); }
-    if(d.profil_court){ set('profil-court', d.profil_court); trigger('profil-court'); }
-    if(d.profil){ set('profil', d.profil); trigger('profil'); }
-    if(d.motivation){ set('motivation', d.motivation); trigger('motivation'); }
-    if(d.apport){ const ap = document.getElementById('apport'); if(ap){ ap.value = d.apport; keurBlur(ap); } }
-
-    if(d.comps && d.comps.length){
-      selComps.length = 0; renderComps();
-      d.comps.slice(0,5).forEach(c => addComp(c));
-    }
-    if(d.secteurs && d.secteurs.length){
-      selSects.length = 0; renderSects();
-      d.secteurs.slice(0,5).forEach(s => addSect(s));
-    }
-
-    if(d.ca){ const el = document.getElementById('ca-cible'); if(el){ el.value = d.ca; keurBlur(el); } }
-    if(d.prix){ set('prix-titres', d.prix); }
-    if(d.eff){ set('effectif', d.eff); }
-    if(d.cond){ set('conditions', d.cond); trigger('conditions'); }
-    if(d.localisation){ set('zone-affichee', d.localisation); trigger('zone-affichee'); }
-
-    if(d.depts && d.depts.length){
-      selDepts.length = 0;
-      document.querySelectorAll('#france-map path.selected').forEach(p => p.classList.remove('selected'));
-      d.depts.forEach(code => {
-        if(!selDepts.includes(code)) selDepts.push(code);
-        const p = document.querySelector(`#france-map path[data-numerodepartement="${code}"]`);
-        if(p) p.classList.add('selected');
-      });
-      renderDeptTags(); updateMapStrokes(); updatePreviewMap(); syncMapToZone();
-    }
-
-    if(d.exps && d.exps.length){
-      document.querySelectorAll('.exp-card').forEach(c => c.remove());
-      expCnt = 0;
-      d.exps.slice(0,4).forEach(e => {
-        addExp();
-        const cards = document.querySelectorAll('.exp-card');
-        const card = cards[cards.length-1];
-        if(e.per) card.querySelector('.e-per').value = e.per;
-        if(e.soc){ const si = card.querySelector('.e-soc'); si.value = e.soc; si.dispatchEvent(new Event('input',{bubbles:true})); }
-        if(e.ca){ const ci = card.querySelector('.e-ca'); ci.value = e.ca; keurBlur(ci); }
-        if(e.pos) card.querySelector('.e-pos').value = e.pos;
-        if(e.sec) card.querySelector('.e-sec').value = e.sec;
-        if(e.desc){ const di = card.querySelector('.e-desc'); di.value = e.desc; di.dispatchEvent(new Event('input',{bubbles:true})); }
-      });
-    }
+  function applyExtractedData(d) {
+    const set = (id, val) => { if (!val) return; const el = document.getElementById(id); if (!el) return; el.value = val; el.dispatchEvent(new Event('input',{bubbles:true})); el.dispatchEvent(new Event('change',{bubbles:true})); };
+    const setKeurSafe = (id, val) => { if (!val) return; const el = document.getElementById(id); if (!el) return; const n = parseInt(String(val).replace(/[^0-9]/g,''),10); if (!n||isNaN(n)) return; el.value = n; keurBlur(el); el.dispatchEvent(new Event('change',{bubbles:true})); };
+    set('profil-court', d.profil_court);
+    set('profil', d.profil);
+    set('motivation', d.motivation);
+    if (d.apport) setKeurSafe('apport', d.apport);
+    if (Array.isArray(d.competences) && d.competences.length) { selComps = []; renderComps(); d.competences.slice(0,5).forEach(c => addComp(c)); }
+    if (Array.isArray(d.apport_complementaire)) { d.apport_complementaire.forEach(item => { const checkbox = [...document.querySelectorAll('#apport-types input')].find(cb => cb.value === item.type || cb.value.toLowerCase().includes(item.type?.toLowerCase())); if (checkbox && !checkbox.checked) { checkbox.checked = true; toggleApportType(checkbox); if (item.amount) { const row = document.querySelector(`.apport-extra-row[data-type="${checkbox.value}"]`); if (row) { const inp = row.querySelector('input'); const n = parseInt(String(item.amount).replace(/[^0-9]/g,''),10); if (inp && n) { inp.value = n; keurBlur(inp); } } } } }); }
+    set('zone-affichee', d.zone_affichee);
+    if (d.ca_cible) { const n = parseInt(String(d.ca_cible).replace(/[^0-9]/g,''),10); if (n) setKeurSafe('ca-cible', n); else set('ca-cible', d.ca_cible); }
+    set('prix-titres', d.prix_titres);
+    set('effectif', d.effectif);
+    set('conditions', d.conditions);
+    if (Array.isArray(d.secteurs) && d.secteurs.length) { selSects = []; renderSects(); d.secteurs.forEach(s => addSect(s)); }
+    if (Array.isArray(d.departements) && d.departements.length) { selDepts = []; document.querySelectorAll('#france-map path.selected').forEach(p => p.classList.remove('selected')); d.departements.forEach(code => { const c = String(code).padStart(2,'0').toUpperCase(); if (!selDepts.includes(c)) { selDepts.push(c); const p = document.querySelector(`#france-map path[data-numerodepartement="${c}"]`); if (p) p.classList.add('selected'); } }); renderDeptTags(); updateMapStrokes(); syncMapToZone(); }
+    if (Array.isArray(d.experiences) && d.experiences.length) { document.querySelectorAll('.exp-card').forEach(c => c.remove()); expCnt = 0; document.getElementById('btn-add').style.display = ''; d.experiences.slice(0,4).forEach(exp => { addExp(); const cards = document.querySelectorAll('.exp-card'); const card = cards[cards.length-1]; if (exp.periode) card.querySelector('.e-per').value = exp.periode; if (exp.societe) { const inp = card.querySelector('.e-soc'); inp.value = exp.societe; inp.dispatchEvent(new Event('input',{bubbles:true})); } if (exp.ca) { const caInp = card.querySelector('.e-ca'); const n = parseInt(String(exp.ca).replace(/[^0-9]/g,''),10); if (n) { caInp.value = n; keurBlur(caInp); } else caInp.value = exp.ca; } if (exp.poste) card.querySelector('.e-pos').value = exp.poste; if (exp.description) { const desc = card.querySelector('.e-desc'); desc.value = exp.description; desc.dispatchEvent(new Event('input',{bubbles:true})); } }); }
   }
 })();
 </script>
